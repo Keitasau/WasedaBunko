@@ -308,7 +308,7 @@ const App = {
     if (!dayScroll) return;
     dayScroll.innerHTML = '';
     const todayDay = this.getTodayDay();
-    for (let d = 1; d <= 30; d++) {
+    for (let d = 1; d <= 16; d++) {
       const pill = document.createElement('div');
       pill.className = 'day-pill';
       if (d === todayDay) pill.classList.add('today');
@@ -332,13 +332,13 @@ const App = {
 
   getTodayDay() {
     try {
-      let firstDate = localStorage.getItem('avn_start');
+      let firstDate = localStorage.getItem('wbvm_start');
       if (!firstDate) {
         firstDate = new Date().toDateString();
-        localStorage.setItem('avn_start', firstDate);
+        localStorage.setItem('wbvm_start', firstDate);
       }
       const diff = Math.floor((new Date() - new Date(firstDate)) / 86400000);
-      return Math.min(30, Math.max(1, diff + 1));
+      return Math.min(16, Math.max(1, diff + 1));
     } catch(e) { return 1; }
   },
 
