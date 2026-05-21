@@ -468,7 +468,7 @@ const App = {
       words = State.vocab.filter(v => State.weakWords.has(v.word));
       if (!words.length) { this.showShark("Weak Wordsがありません！素晴らしい！🎉"); return; }
     } else if (mode === 'random') {
-      words = this.shuffleArr([...State.vocab]).slice(0, 30);
+      words = this.shuffleArr([...State.vocab]);
     }
     this.sessionSource = mode;
     this.sessionWords = this.shuffleArr(words);
@@ -493,12 +493,7 @@ const App = {
       this.sessionCorrect = 0; // リスニングフェーズ開始時にリセット
       this.setupQuiz();
       this.showScreen('screen-quiz');
-      // 画面遷移完了後に1問目の音声を再生
-      setTimeout(() => {
-        if (this.sessionMode === 'listening' && this.quizCurrentWord) {
-          this.speak(this.quizCurrentWord.word);
-        }
-      }, 400);
+      // 1問目音声: renderQuiz内で統一処理するため、ここでは何もしない
     }
   },
 
@@ -662,9 +657,9 @@ const App = {
       }
     }, 1000);
 
-    // リスニングモード: 2問目以降はここで音声再生（1問目はstartPhaseで処理）
-    if (this.sessionMode === 'listening' && this.sessionIndex > 0) {
-      setTimeout(() => this.speak(w.word), 500);
+    // リスニングモード: 全問ここで音声再生
+    if (this.sessionMode === 'listening') {
+      setTimeout(() => this.speak(w.word), 300);
     }
   },
 
